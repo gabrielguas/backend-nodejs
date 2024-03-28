@@ -1,4 +1,4 @@
-import ProductDAO from "../dao/product.dao.js"
+import ProductDAO from "../dao/product.dao.js";
 
 class ProductRepository {
   constructor() {
@@ -44,6 +44,39 @@ class ProductRepository {
       throw error;
     }
   }
-}
 
+  async getAllProductsPaginate(page, limit, query, sort) {
+    try {
+      let filter = {};
+      if (query) {
+        filter = {
+          $or: [
+            { title: { $regex: query, $options: "i" } },
+            { description: { $regex: query, $options: "i" } },
+          ],
+        };
+      }
+
+      let sortOption = {};
+      if (sort) {
+        if (sort.toLowerCase() === "asc") {
+          sortOption = { price: 1 }; // Ascendente
+        } else if (sort.toLowerCase() === "desc") {
+          sortOption = { price: -1 }; // Descendente
+        }
+      }
+
+      const options = {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        sort: sortOption,
+      };
+
+      return await this.productDAO.getAllProductsPaginate(filter, options);
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error al obtener productos paginados");
+    }
+  }
+}
 export default ProductRepository;

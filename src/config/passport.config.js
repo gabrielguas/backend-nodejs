@@ -82,41 +82,44 @@ const initializePassport = () => {
     }
   });
 
- // Usando github
+  // Usando github
   passport.use(
-  "github",
-  new GitHubStrategy(
-    {
-      clientID: GITHUB_CLIENT_ID,
-      clientSecret: GITHUB_SECRET,
-      callbackUrl: GITHUB_CALLBACK_URL,
-    },
-    async (accessToken, refreshToken, profile, done) => {
-      try {
-        const user = await userRepo.getUserByEmailOrUsername(
-          profile._json.email,
-          profile._json.login
-        );
-        if (!user) {
-          let newUser = {
-            username: profile._json.login,
-            email: profile._json.url,
-            password: "gitHubUserPass",
-            loggedBy: "GitHub",
-            type: "user",
-          };
-          const result = await userRepo.createUser(newUser);
-          return done(null, result);
-        } else {
-          // Si entramos por aca significa que el user ya existe en la DB
-          return done(null, user);
+    "github",
+    new GitHubStrategy(
+      {
+        clientID: GITHUB_CLIENT_ID,
+        clientSecret: GITHUB_SECRET,
+        callbackUrl: GITHUB_CALLBACK_URL,
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        console.log("ahora en guthib passport");
+        try {
+          const user = await userRepo.getUserByEmailOrUsername(
+            profile._json.email,
+            profile._json.login
+          ); 
+          console.log("user: ",user);
+          if (!user) {
+            let newUser = {
+              first_name: profile._json.login,
+              email: profile._json.url,
+              password: "gitHubUserPass",
+              loggedBy: "GitHub",
+              type: "user",
+            };
+            const result = await userRepo.createUser(newUser);
+            console.log("Creando el nuevo usuario");
+            return done(null, result);
+          } else {
+            // Si entramos por aca significa que el user ya existe en la DB
+            return done(null, user);
+          }
+        } catch (error) {
+          return done(error);
         }
-      } catch (error) {
-        return done(error);
       }
-    }
-  )
-);
+    )
+  );
 };
 
 export default initializePassport;

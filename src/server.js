@@ -1,11 +1,13 @@
 import express from "express";
 import __dirname from "./utils.js";
 
+// Env
+import { configEnv } from "./config/config.js"
+
 // Handlebars
 import handlebars from "express-handlebars";
 import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access";
 import Handlebars from "handlebars";
-// Handlebars
 
 // Base de datos
 import MongoSingleton from "./config/db/mongodb-connection-singleton.js";
@@ -79,7 +81,7 @@ app.use("/api/products", productRouter);
 app.use("/api/session",sessionRouter)
 
 // Iniciar el servidor en el puerto 8000
-app.listen(8080, () => {
+app.listen(configEnv.PORT, () => {
   console.log("Servidor escuchando en el puerto 8080");
 });
 

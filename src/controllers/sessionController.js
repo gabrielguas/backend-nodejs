@@ -15,7 +15,9 @@ const sessionController = {
         return res.status(400).send({ status: "error", message: info.message });
       }
       // Usuario creado con éxito
-      return res.status(201).send({ status: "success", message: "Usuario creado con éxito!" });
+      return res
+        .status(201)
+        .send({ status: "success", message: "Usuario creado con éxito!" });
     })(req, res);
   },
 
@@ -42,14 +44,13 @@ const sessionController = {
   },
 
   githubLogin: async (req, res) => {
+    console.log("en githublogin aca");
     passport.authenticate("github", { scope: ["user:email"] })(req, res);
   },
 
   githubLoginCallback: async (req, res) => {
-    passport.authenticate("github", { failureRedirect: "/github/error" })(
-      req,
-      res,
-      () => {
+    
+    passport.authenticate("github", { failureRedirect: "/github/error" })(req,res,() => {
         const user = req.user;
         req.session.user = {
           name: `${user.first_name} ${user.last_name}`,
@@ -57,7 +58,7 @@ const sessionController = {
           age: 18, // Establece la edad a 18 por defecto
           rol: user.rol,
         };
-        res.redirect("/users"); // Redirecciona después del inicio de sesión con éxito
+        res.redirect("/"); // Redirecciona después del inicio de sesión con éxito
       }
     );
   },
