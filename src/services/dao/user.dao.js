@@ -3,7 +3,6 @@ import userModel from "../../models/user.model.js";
 class UserDAO {
   async createUser(userData) {
     try {
-      console.log(userData);
       const newUser = await userModel.create(userData);
       return newUser;
     } catch (error) {

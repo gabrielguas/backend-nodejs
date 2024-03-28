@@ -15,10 +15,7 @@ const sessionController = {
         return res.status(400).send({ status: "error", message: info.message });
       }
       // Usuario creado con éxito
-      console.log("Usuario creado con éxito!");
-      return res
-        .status(201)
-        .send({ status: "success", message: "Usuario creado con éxito!" });
+      return res.status(201).send({ status: "success", message: "Usuario creado con éxito!" });
     })(req, res);
   },
 
