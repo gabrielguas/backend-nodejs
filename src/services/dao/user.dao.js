@@ -67,6 +67,18 @@ class UserDAO {
       );
     }
   }
+  async getUserByEmailOrUsername(email, username) {
+    try {
+      return await User.findOne({
+        $or: [
+          { email: email },
+          { username: username }
+        ]
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default UserDAO;

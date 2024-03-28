@@ -20,6 +20,7 @@ import sessionRouter from "./routes/api/session.api.routes.js"
 // Vistas
 import indexViewRouter from './routes/views/index.routes.js'
 import authViewRouter from './routes/views/auth.routes.js'
+import githubLoginViewRouter from './routes/views/github-login.routes.js'
 
 // Sessions
 import sessionConfig from "./config/server/sessionConfig.js"
@@ -70,7 +71,7 @@ app.use(passport.session());
 // Rutas para vistas
 app.use("/", indexViewRouter);
 app.use("/users", authViewRouter);
-
+app.use("/github", githubLoginViewRouter);
 
 // Rutas de la API
 app.use("/api/users", userRouter);
