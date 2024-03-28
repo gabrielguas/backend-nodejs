@@ -3,6 +3,7 @@ import userModel from "../../models/user.model.js";
 // Crear un nuevo usuario
 const createUser = async (userData) => {
   try {
+    console.log(userData);
     const newUser = await userModel.create(userData);
     return newUser;
   } catch (error) {
@@ -73,7 +74,7 @@ const getUserByEmail = async (email) => {
   }
 };
 
-export {
+export default {
   createUser,
   getAllUsers,
   getUserById,
