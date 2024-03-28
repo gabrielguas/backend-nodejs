@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+</head>
+<body>
+    <header>
+        <h1>¡Bienvenido a la Tienda Online!</h1>
+        {{#if user}}
+        <div class="row align-items-center mb-4">
+        <div class="col">
+        <h3 class="mb-3">¡Bienvenido, {{user.name}}!</h3>
+        {{#if user.email}}
+        <p>Email: {{user.email}}</p>
+        {{/if}}
+        {{#if user.age}}
+        <p>Edad: {{user.age}}</p>
+        {{/if}}
+        {{#if user.rol}}
+        <p>Rol: {{user.rol}}</p>
+        {{/if}}
+        <p>ID: {{user._id}}</p>
+        {{else}}
+            <a href="/users/login">Iniciar sesión</a>
+            <a href="/users/register">Registrarse</a>
+        {{/if}}
+    </header>
+    <main>
+        <h2>Productos</h2>
+        {{#if products}}
+            <ul>
+                {{#each products}}
+                    <li>
+                        <p>{{this.name}}</p>
+                        <p>Precio: {{this.price}}</p>
+                        <!-- Agregar más detalles del producto si es necesario -->
+                    </li>
+                {{/each}}
+            </ul>
+        {{else}}
+            <p>No hay productos disponibles.</p>
+        {{/if}}
+    </main>
+    <footer>
+        <p>Derechos de autor © 2024 Tienda Online.</p>
+    </footer>
+</body>
+</html>

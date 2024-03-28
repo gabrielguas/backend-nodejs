@@ -1,0 +1,27 @@
+<div>
+  {{#if user}}
+    <h1>Ya estás logueado</h1>
+    <p>Puedes acceder a tu perfil <a href="/">aquí</a>.</p>
+  {{else}}
+    <h1>Registro</h1>
+    <form id="registerForm">
+      <label>Nombre</label>
+      <input name="first_name" required />
+      <br />
+      <label>Apellido</label>
+      <input name="last_name" required />
+      <br />
+      <label>Email</label>
+      <input name="email" required />
+      <br />
+      <label>Edad</label>
+      <input name="age" required />
+      <br />
+      <label>Contraseña</label>
+      <input name="password" type="password" required />
+      <input type="submit" />
+    </form>
+    <p>¿Ya tienes una cuenta? <a href="/users/login">Ingresa acá</a></p>
+  {{/if}}
+</div>
+<script src="/js/register.js"></script>
