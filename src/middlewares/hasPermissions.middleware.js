@@ -1,11 +1,7 @@
 const hasPermissions = (...requiredRoles) => {
   return (req, res, next) => {
     if (!req.session || !req.session.user || !req.session.user.rol) {
-      return res
-        .status(401)
-        .json({
-          error: "No estás autorizado para ver esta parte de la página.",
-        });
+      return res.status(401).json({ error: "No estás autorizado para ver esta parte de la página." });
     }
 
     const userRole = req.session.user.rol;

@@ -1,16 +1,12 @@
-import {
-  createProduct,
-  getAllProducts,
-  getProductById,
-  updateProductById,
-  deleteProductById,
-} from "../services/dao/product.dao.js"
+import ProductRepository from "../services/repository/productRepository.js";
+
+const productRepository = new ProductRepository();
 
 // Crear un nuevo producto
 const createProductController = async (req, res) => {
   try {
-    const productData = req.body; // Los datos del producto deben estar en el cuerpo de la solicitud
-    const newProduct = await createProduct(productData);
+    const productData = req.body;
+    const newProduct = await productRepository.createProduct(productData);
     res.status(201).json(newProduct);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -19,9 +15,8 @@ const createProductController = async (req, res) => {
 
 // Obtener todos los productos
 const getAllProductsController = async (req, res) => {
-
   try {
-    const products = await getAllProducts();
+    const products = await productRepository.getAllProducts();
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -31,8 +26,8 @@ const getAllProductsController = async (req, res) => {
 // Obtener un producto por su ID
 const getProductByIdController = async (req, res) => {
   try {
-    const productId = req.params.id; // El ID del producto se puede obtener de los parámetros de la ruta
-    const product = await getProductById(productId);
+    const productId = req.params.id;
+    const product = await productRepository.getProductById(productId);
     res.status(200).json(product);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -42,9 +37,9 @@ const getProductByIdController = async (req, res) => {
 // Actualizar un producto por su ID
 const updateProductByIdController = async (req, res) => {
   try {
-    const productId = req.params.id; // El ID del producto se puede obtener de los parámetros de la ruta
-    const newData = req.body; // Los nuevos datos del producto deben estar en el cuerpo de la solicitud
-    const updatedProduct = await updateProductById(productId, newData);
+    const productId = req.params.id;
+    const newData = req.body;
+    const updatedProduct = await productRepository.updateProductById(productId, newData);
     res.status(200).json(updatedProduct);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -54,8 +49,8 @@ const updateProductByIdController = async (req, res) => {
 // Eliminar un producto por su ID
 const deleteProductByIdController = async (req, res) => {
   try {
-    const productId = req.params.id; // El ID del producto se puede obtener de los parámetros de la ruta
-    const deletedProduct = await deleteProductById(productId);
+    const productId = req.params.id;
+    const deletedProduct = await productRepository.deleteProductById(productId);
     res.status(200).json(deletedProduct);
   } catch (error) {
     res.status(404).json({ message: error.message });

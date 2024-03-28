@@ -1,0 +1,59 @@
+<!-- adminIndex.hbs -->
+<div class="container">
+    <h1 class="mt-4 mb-4">Panel de Administrador</h1>
+    <form action="/api/session/logout">
+        <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
+    </form>
+    <h2 class="mt-4 mb-4">Lista de Productos</h2>
+    {{#each products}}
+    <div class="product card mb-4">
+        <div class="card-body">
+            <h2 class="card-title">{{title}}</h2>
+            <p class="card-text">{{description}}</p>
+            <p class="card-text">Precio: ${{price}}</p>
+            <a href="/api/products/detalle/{{_id}}" class="btn btn-primary">Ver más</a>
+            <button onclick="eliminarProducto('{{_id}}')" class="btn btn-danger">Eliminar Producto</button>
+            <button onclick="mostrarFormularioEditar('{{_id}}')" class="btn btn-info">Actualizar Producto</button>
+            <div id="formularioEditar{{_id}}" style="display: none;" class="container mt-4">
+                <h2>Editar Producto</h2>
+                <form id="formEditarProducto{{_id}}" onsubmit="actualizarProducto('{{_id}}'); return false;" method="POST">
+                    <!-- Campos para editar el producto -->
+                    <input type="text" name="title" id="updateTitle" placeholder="Título" required>
+                    <input type="text" name="description" id="updateDescription" placeholder="Descripción" required>
+                    <input type="text" name="code" id="updateCode" placeholder="Código" required>
+                    <input type="number" name="price" id="updatePrice" placeholder="Precio" required>
+                    <input type="checkbox" name="status" id="updateStatus{{_id}}" value="true" checked>
+                    <label for="updateStatus{{_id}}">Estado</label><br>
+                    <input type="number" name="stock" id="updateStock" placeholder="Stock" required>
+                    <input type="text" name="category" id="updateCategory" placeholder="Categoría" required>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+
+    <!-- Botón para agregar un nuevo producto -->
+    <button onclick="mostrarFormularioAgregar()" class="btn btn-success">Agregar Nuevo Producto</button>
+
+</div>
+
+<!-- Formulario para agregar un nuevo producto (oculto por defecto) -->
+<div id="formularioAgregar" style="display: none;" class="container mt-4">
+    <h2>Agregar Nuevo Producto</h2>
+    <form id="formAgregarProducto" action="/api/products/" method="POST">
+        <!-- Campos para el nuevo producto (título, descripción, precio, etc.) -->
+        <input type="text" name="title" placeholder="Título" required>
+        <input type="text" name="description" placeholder="Descripción" required>
+        <input type="text" name="code" placeholder="Código" required>
+        <input type="number" name="price" placeholder="Precio" required>
+        <input type="checkbox" name="status" id="status" value="true" checked>
+        <label for="status">Estado</label><br>
+        <input type="number" name="stock" placeholder="Stock" required>
+        <input type="text" name="category" placeholder="Categoría" required>
+        <button type="submit" class="btn btn-primary">Agregar Producto</button>
+    </form>
+</div>
+
+<!-- Importar el archivo de script product.js -->
+<script src="/js/product.js"></script>

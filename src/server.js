@@ -18,7 +18,7 @@ import productRouter from "./routes/api/products.api.routes.js";
 import sessionRouter from "./routes/api/session.api.routes.js"
 
 // Vistas
-import homeViewRouter from './routes/views/home.routes.js'
+import indexViewRouter from './routes/views/index.routes.js'
 import authViewRouter from './routes/views/auth.routes.js'
 
 // Sessions
@@ -68,7 +68,7 @@ app.use(passport.session());
 
 
 // Rutas para vistas
-app.use("/", homeViewRouter);
+app.use("/", indexViewRouter);
 app.use("/users", authViewRouter);
 
 
@@ -78,8 +78,8 @@ app.use("/api/products", productRouter);
 app.use("/api/session",sessionRouter)
 
 // Iniciar el servidor en el puerto 8000
-app.listen(8000, () => {
-  console.log("Servidor escuchando en el puerto 8000");
+app.listen(8080, () => {
+  console.log("Servidor escuchando en el puerto 8080");
 });
 
 // Inicializar la instancia de la base de datos MongoDB

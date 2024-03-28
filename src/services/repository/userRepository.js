@@ -58,10 +58,8 @@ class UserRepository {
   async updatePassword(userId, newPassword) {
     try {
       const hashedPassword = createHash(newPassword);
-      // Actualiza la contraseña del usuario en la base de datos utilizando el método updateUser del DAO de usuario
       return await this.userDAO.updateUser(userId, { password: hashedPassword  });
     } catch (error) {
-      // Maneja cualquier error que pueda ocurrir durante la actualización de la contraseña
       throw error;
     }
   }
