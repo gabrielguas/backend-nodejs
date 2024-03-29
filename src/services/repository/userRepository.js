@@ -25,7 +25,7 @@ class UserRepository {
 
   async updateUser(userId, newData) {
     try {
-      return await this.userDAO.updateUser(userId, newData);
+      return await this.userDAO.updateUserById(userId, newData);
     } catch (error) {
       throw error;
     }
@@ -58,7 +58,7 @@ class UserRepository {
   async updatePassword(userId, newPassword) {
     try {
       const hashedPassword = createHash(newPassword);
-      return await this.userDAO.updateUser(userId, { password: hashedPassword  });
+      return await this.userDAO.updateUserById(userId, { password: hashedPassword  });
     } catch (error) {
       throw error;
     }

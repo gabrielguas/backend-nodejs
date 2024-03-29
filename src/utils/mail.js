@@ -84,13 +84,12 @@ const resetPassword = (req, res) => {
     delete tempDBmails[token];
     return res.redirect("/send-email-to-reset");
   }
-  //Podes hacer que renderice un html sencillo y le pida ingresar contraseña y haga los metodos para actualizar de abajo dentro de acá?
   tempDBmails[token];
   res.render("resetpassword/reset-password-form", { token });
 };
 
 const updatePassword = async (req, res) => {
-  const token = req.params.token; // Obtener el token del cuerpo de la solicitud
+  const token = req.params.token;
   const emailInfo = tempDBmails[token];
   if (!emailInfo) {
     return res
