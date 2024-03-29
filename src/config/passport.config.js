@@ -52,6 +52,7 @@ const initializePassport = () => {
       async (req, username, password, done) => {
         try {
           const user = await userRepo.getUserByEmail(username);
+          console.log(user);
           if (!user) {
             console.warn("El usuario no existe");
             return done(null, false);

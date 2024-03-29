@@ -63,7 +63,7 @@ class ProductDAO {
       throw new Error("Error al eliminar el producto: " + error.message);
     }
   }
-  // Pagiante
+  // Paginate
   async getAllProductsPaginate(filter, options) {
     try {
       return await ProductModel.paginate(filter, options);

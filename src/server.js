@@ -18,10 +18,11 @@ import cors from "cors";
 import userRouter from "./routes/api/users.api.routes.js";
 import productRouter from "./routes/api/products.api.routes.js";
 import sessionRouter from "./routes/api/session.api.routes.js"
+import cartRouter from "./routes/api/cart.api.routes.js"
 
 // Vistas
 import indexViewRouter from './routes/views/index.routes.js'
-import authViewRouter from './routes/views/auth.routes.js'
+import usersViewRouter from './routes/views/users.routes.js'
 import githubLoginViewRouter from './routes/views/github-login.routes.js'
 
 // Sessions
@@ -72,14 +73,14 @@ app.use(passport.session());
 
 // Rutas para vistas
 app.use("/", indexViewRouter);
-app.use("/users", authViewRouter);
+app.use("/users", usersViewRouter);
 app.use("/github", githubLoginViewRouter);
 
 // Rutas de la API
 app.use("/api/users", userRouter);
 app.use("/api/products", productRouter);
 app.use("/api/session",sessionRouter)
-
+app.use("/api/cart", cartRouter)
 // Iniciar el servidor en el puerto 8000
 app.listen(configEnv.PORT, () => {
   console.log("Servidor escuchando en el puerto 8080");
