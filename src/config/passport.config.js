@@ -52,7 +52,6 @@ const initializePassport = () => {
       async (req, username, password, done) => {
         try {
           const user = await userRepo.getUserByEmail(username);
-          console.log(user);
           if (!user) {
             console.warn("El usuario no existe");
             return done(null, false);
@@ -94,12 +93,10 @@ const initializePassport = () => {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
-          console.log(profile);
           const user = await userRepo.getUserByEmailOrUsername(
             profile._json.email,
             profile._json.login
           ); 
-          console.log("user: ",user);
           if (!user) {
             let newUser = {
               first_name: profile._json.login,
@@ -109,7 +106,6 @@ const initializePassport = () => {
               type: "user",
             };
             const result = await userRepo.createUser(newUser);
-            console.log("Creando el nuevo usuario");
             return done(null, result);
           } else {
             // Si entramos por aca significa que el user ya existe en la DB

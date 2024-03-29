@@ -19,11 +19,15 @@ import userRouter from "./routes/api/users.api.routes.js";
 import productRouter from "./routes/api/products.api.routes.js";
 import sessionRouter from "./routes/api/session.api.routes.js"
 import cartRouter from "./routes/api/cart.api.routes.js"
+import emailApiRouter from './routes/api/email.api.routes.js'
+
 
 // Vistas
 import indexViewRouter from './routes/views/index.routes.js'
 import usersViewRouter from './routes/views/users.routes.js'
 import githubLoginViewRouter from './routes/views/github-login.routes.js'
+import emailRouter from './routes/views/email.routes.js'
+
 
 // Sessions
 import sessionConfig from "./config/server/sessionConfig.js"
@@ -31,6 +35,9 @@ import sessionConfig from "./config/server/sessionConfig.js"
 //Passport
 import passport from "passport";
 import initializePassport from "./config/passport.config.js"
+
+//Verificación mailer
+import { checkConnection } from "./utils/mail.js";
 
 const app = express();
 
@@ -75,12 +82,15 @@ app.use(passport.session());
 app.use("/", indexViewRouter);
 app.use("/users", usersViewRouter);
 app.use("/github", githubLoginViewRouter);
+app.use("/email", emailRouter);
 
 // Rutas de la API
 app.use("/api/users", userRouter);
 app.use("/api/products", productRouter);
 app.use("/api/session",sessionRouter)
 app.use("/api/cart", cartRouter)
+app.use("/api/email", emailApiRouter)
+
 // Iniciar el servidor en el puerto 8000
 app.listen(configEnv.PORT, () => {
   console.log("Servidor escuchando en el puerto 8080");
@@ -95,4 +105,5 @@ const mongoInstance = async () => {
   }
 };
 
+checkConnection
 mongoInstance();

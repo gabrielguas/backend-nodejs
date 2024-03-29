@@ -56,7 +56,7 @@ const sessionController = {
           email: user.email,
           age: 18, // Establece la edad a 18 por defecto
           rol: user.rol,
-          id: user._id,
+          _id: user._id,
         };
         res.redirect("/"); // Redirecciona después del inicio de sesión con éxito
       }
