@@ -13,9 +13,31 @@ paths:
                 type: array
                 items:
                   $ref: '#components/schemas/Product'
-                  
         "500":
           description: Error del servidor, no se pudieron obtener los productos
+
+  /api/products/{id}:
+    get:
+      summary: Obtiene un producto.
+      tags: 
+        - Producto
+      parameters:
+        - name: id
+          in: path
+          required: true
+      responses:
+        "200":
+          description: Respuesta exitosa, retorna un JSON con el producto
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Product'
+                  
+        "404":
+          description: Not found, no se encontró el producto
+
 
 
 
