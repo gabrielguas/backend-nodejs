@@ -28,7 +28,7 @@ const adminController = {
     try {
       const productId = req.params.productId;
       const updatedProduct = req.body; // Suponiendo que los datos actualizados del producto se envían en el cuerpo de la solicitud
-      await productRepository.updateProduct(productId, updatedProduct);
+      await productRepository.updateProductById(productId, updatedProduct);
       res.redirect("/admin/panel");
     } catch (error) {
       // console.error("Error al editar producto:", error);

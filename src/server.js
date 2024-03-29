@@ -39,7 +39,15 @@ import initializePassport from "./config/passport.config.js"
 //Verificación mailer
 import { checkConnection } from "./utils/mail.js";
 
+// Swagger
+import { swaggerOptions } from "./config/swagger/swagger.config.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
+
 const app = express();
+
+//Configuracion para swagger
+const specs = swaggerJSDoc(swaggerOptions);
 
 // Configuración para el manejo de JSON
 app.use(express.json());
@@ -72,6 +80,7 @@ app.use(express.static(__dirname + "/public"));
 // Configuracion de Session
 app.use(sessionConfig);
 
+
 // Middleware de passport
 initializePassport();
 app.use(passport.initialize());
@@ -90,6 +99,7 @@ app.use("/api/products", productRouter);
 app.use("/api/session",sessionRouter)
 app.use("/api/cart", cartRouter)
 app.use("/api/email", emailApiRouter)
+app.use("/apidocs",swaggerUiExpress.serve,swaggerUiExpress.setup(specs))
 
 // Iniciar el servidor en el puerto 8000
 app.listen(configEnv.PORT, () => {
