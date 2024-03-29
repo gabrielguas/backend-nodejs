@@ -5,9 +5,9 @@ const router = Router()
 
 router.get("/", getAllProductsController);
 router.get("/:id", getProductByIdController);
-router.delete("/:id", hasPermissions("admin"), deleteProductByIdController)
-router.post("/",hasPermissions("admin"), createProductController )
-router.put("/:id", hasPermissions("admin"), updateProductByIdController)
+router.delete("/:id",deleteProductByIdController)
+router.post("/", createProductController )
+router.put("/:id", updateProductByIdController)
 
 
 export default router

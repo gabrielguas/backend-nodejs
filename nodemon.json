@@ -1,3 +1,3 @@
 {
-  "ext": ".js, .msj, .coffee, .litcoffee, .json, .yaml"
+  "ext": ".js, .msj, .coffee, .litcoffee, .json, .yaml, .hbs"
 }

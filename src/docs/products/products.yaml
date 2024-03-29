@@ -7,6 +7,13 @@ paths:
       responses:
         "200":
           description: Respuesta exitosa, retorna un JSON de los productos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Product'
+                  
         "500":
           description: Error del servidor, no se pudieron obtener los productos
 
