@@ -92,6 +92,7 @@ app.use("/", indexViewRouter);
 app.use("/users", usersViewRouter);
 app.use("/github", githubLoginViewRouter);
 app.use("/email", emailRouter);
+app.use("/apidocs",swaggerUiExpress.serve,swaggerUiExpress.setup(specs))
 
 // Rutas de la API
 app.use("/api/users", userRouter);
@@ -99,7 +100,7 @@ app.use("/api/products", productRouter);
 app.use("/api/session",sessionRouter)
 app.use("/api/cart", cartRouter)
 app.use("/api/email", emailApiRouter)
-app.use("/apidocs",swaggerUiExpress.serve,swaggerUiExpress.setup(specs))
+
 
 // Iniciar el servidor en el puerto 8000
 app.listen(configEnv.PORT, () => {

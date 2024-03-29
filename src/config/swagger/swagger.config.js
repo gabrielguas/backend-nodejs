@@ -4,7 +4,7 @@ export const swaggerOptions = {
   definition: {
     openapi: "3.0.1",
     info: {
-      title: "Documentacion",
+      title: "Documentacion API Product / Cart",
       description: "Documentacion de product y cart con Swagger",
     },
   },
