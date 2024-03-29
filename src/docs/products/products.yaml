@@ -9,3 +9,66 @@ paths:
           description: Respuesta exitosa, retorna un JSON de los productos
         "500":
           description: Error del servidor, no se pudieron obtener los productos
+
+
+
+
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Identificador único del producto.
+          example: "658e0f7380eb9365695f9ed5"
+        owner:
+          type: string
+          description: Propietario del producto.
+          example: "admin"
+        title:
+          type: string
+          description: Título del producto.
+          example: "asdad"
+        description:
+          type: string
+          description: Descripción del producto.
+          example: "asdasd"
+        code:
+          type: string
+          description: Código único del producto.
+          example: "233"
+        price:
+          type: number
+          format: float
+          description: Precio del producto.
+          example: 125
+        status:
+          type: boolean
+          description: Estado del producto (activo/inactivo).
+          example: true
+        stock:
+          type: integer
+          description: Cantidad disponible en stock.
+          example: 23
+        category:
+          type: string
+          description: Categoría a la que pertenece el producto.
+          example: "hardware"
+        thumbnail:
+          type: array
+          description: Lista de URLs de las imágenes del producto.
+          items:
+            type: string
+            format: uri
+            example: "evga_power_supply.jpg"
+      required:
+        - title
+        - description
+        - code
+        - price
+        - status
+        - stock
+        - category
+        - thumbnail
