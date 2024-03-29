@@ -44,7 +44,6 @@ const sessionController = {
   },
 
   githubLogin: async (req, res) => {
-    console.log("en githublogin aca");
     passport.authenticate("github", { scope: ["user:email"] })(req, res);
   },
 
@@ -57,6 +56,7 @@ const sessionController = {
           email: user.email,
           age: 18, // Establece la edad a 18 por defecto
           rol: user.rol,
+          id: user._id,
         };
         res.redirect("/"); // Redirecciona después del inicio de sesión con éxito
       }

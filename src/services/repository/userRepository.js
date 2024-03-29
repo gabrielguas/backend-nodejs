@@ -49,7 +49,6 @@ class UserRepository {
 
   async getUserByEmailOrUsername(email, username) {
     try {
-      console.log("Intendando obtener el usuario");
       return await this.userDAO.getUserByEmailOrUsername(email, username);
     } catch (error) {
       throw error;

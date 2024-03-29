@@ -93,8 +93,8 @@ const initializePassport = () => {
         callbackUrl: GITHUB_CALLBACK_URL,
       },
       async (accessToken, refreshToken, profile, done) => {
-        console.log("ahora en guthib passport");
         try {
+          console.log(profile);
           const user = await userRepo.getUserByEmailOrUsername(
             profile._json.email,
             profile._json.login

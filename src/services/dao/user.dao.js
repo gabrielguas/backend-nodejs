@@ -69,10 +69,10 @@ class UserDAO {
   }
   async getUserByEmailOrUsername(email, username) {
     try {
-      return await User.findOne({
+      return await userModel.findOne({
         $or: [
           { email: email },
-          { username: username }
+          { first_name: username }
         ]
       });
     } catch (error) {
