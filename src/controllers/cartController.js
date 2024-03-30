@@ -20,8 +20,13 @@ const cartController = {
   clearCart: async (req, res) => {
     try {
       const userId = req.session.user._id;
-      const cart = await cartRepository.getCartByUserId(userId)
-
+      const cartUserId = req.params.userId;
+      if (userId !== cartUserId) {
+        return res.status(403).json({ message: "No tienes permiso para vaciar este carrito" });
+      }
+  
+      const cart = await cartRepository.getCartByUserId(userId);
+  
       if (cart) {
         cart.products = [];
         await cart.save();

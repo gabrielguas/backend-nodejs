@@ -7,7 +7,7 @@ paths:
     get:
       summary: Obtiene todos los productos.
       tags: 
-        - Productos
+        - Producto
       responses:
         "200":
           description: Respuesta exitosa, retorna un JSON de los productos

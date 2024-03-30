@@ -1,0 +1,125 @@
+openapi: 3.0.0
+info:
+  title: Documentación API Carrito de Compras
+  version: 1.0.0
+paths:
+  /api/cart/{userId}/products/{productId}:
+    post:
+      summary: Agrega un producto al carrito de un usuario.
+      tags:
+        - Carrito de Compras
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID del usuario.
+          schema:
+            type: string
+        - name: productId
+          in: path
+          required: true
+          description: ID del producto.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Producto agregado al carrito con éxito.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Producto agregado al carrito con éxito"
+        "500":
+          description: Error interno del servidor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /api/cart/clearcart/{userId}:
+    post:
+      summary: Vacía el carrito de un usuario.
+      tags:
+        - Carrito de Compras
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID del usuario.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Carrito vaciado exitosamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Carrito vaciado exitosamente"
+        "404":
+          description: El carrito está vacío.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "El carrito está vacío"
+        "500":
+          description: Error interno del servidor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Identificador único del carrito.
+          example: "6601dc1d435a2cf1133bb738"
+        userId:
+          type: string
+          description: ID del usuario al que pertenece el carrito.
+          example: "6601dc1d435a2cf1133bb737"
+        total:
+          type: number
+          description: Total del carrito.
+          example: 0
+        totalProducts:
+          type: integer
+          description: Total de productos en el carrito.
+          example: 0
+        products:
+          type: array
+          description: Lista de productos en el carrito.
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+                description: Identificador único del elemento del carrito.
+                example: "66081aa69970cb1287f5ef41"
+              productId:
+                type: string
+                description: ID del producto en el carrito.
+                example: "658e0f7a80eb9365695f9ed7"
+              quantity:
+                type: integer
+                description: Cantidad del producto en el carrito.
+                example: 1
