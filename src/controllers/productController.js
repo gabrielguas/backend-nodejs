@@ -50,8 +50,8 @@ const updateProductByIdController = async (req, res) => {
 const deleteProductByIdController = async (req, res) => {
   try {
     const productId = req.params.id;
-    const deletedProduct = await productRepository.deleteProductById(productId);
-    res.status(200).json(deletedProduct);
+    await productRepository.deleteProductById(productId);
+    res.status(200).json({ message: "El producto fue eliminado"});
   } catch (error) {
     res.status(404).json({ message: error.message });
   }

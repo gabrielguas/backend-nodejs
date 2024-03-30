@@ -1,4 +1,8 @@
-paths: 
+openapi: 3.0.0
+info:
+  title: Documentación API Product / Cart
+  version: 1.0.0
+paths:
   /api/products:
     get:
       summary: Obtiene todos los productos.
@@ -12,9 +16,28 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#components/schemas/Product'
+                  $ref: '#/components/schemas/Product'
         "500":
-          description: Error del servidor, no se pudieron obtener los productos
+          description: Error del servidor, retorna un JSON informando el error
+    post:  
+      summary: Crea un nuevo producto.
+      tags:
+        - Producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        "201":
+          description: Producto creado exitosamente devuelve un JSON con el producto nuevo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        "500":
+          description: Error del servidor, retorna un JSON informando el error
 
   /api/products/{id}:
     get:
@@ -31,17 +54,51 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#components/schemas/Product'
-                  
+                $ref: '#/components/schemas/Product'
         "404":
-          description: Not found, no se encontró el producto
+          description: Not found, no se encontró el producto, retorna un JSON con el mensaje de error
 
+    put:   # Agregar la ruta PUT para actualizar un producto por su ID
+      summary: Actualiza un producto por su ID.
+      tags:
+        - Producto
+      parameters:
+        - name: id
+          in: path
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        "200":
+          description: Producto actualizado exitosamente. Retorna un JSON con el producto actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        "404":
+          description:  Not found, no se encontró el producto, retorna un JSON con el mensaje de error
 
-
-
-
+    delete:
+      summary: Elimina un producto
+      tags: 
+        - Producto
+      parameters:
+        - name: id
+          in: path
+          required: true
+      responses:
+        "200":
+          description: Respuesta exitosa, retorna un JSON con mensaje de que se eliminó el producto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        "404":
+          description: Not found, no se encontró el producto, retorna un JSON con el mensaje de error
 
 components:
   schemas:
@@ -59,11 +116,11 @@ components:
         title:
           type: string
           description: Título del producto.
-          example: "asdad"
+          example: "Fuente"
         description:
           type: string
           description: Descripción del producto.
-          example: "asdasd"
+          example: "Fuente de poder"
         code:
           type: string
           description: Código único del producto.
