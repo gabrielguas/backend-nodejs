@@ -58,7 +58,7 @@ paths:
         "404":
           description: Not found, no se encontró el producto, retorna un JSON con el mensaje de error
 
-    put:   # Agregar la ruta PUT para actualizar un producto por su ID
+    put:
       summary: Actualiza un producto por su ID.
       tags:
         - Producto
