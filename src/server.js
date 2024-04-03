@@ -72,6 +72,8 @@ app.engine(
 // Configuración del motor de plantillas
 app.set("view engine", "hbs");
 app.set("views", `${__dirname}/views`);
+
+// Configuración de CORS
 app.use(cors());
 
 // Public
@@ -104,7 +106,7 @@ app.use("/api/email", emailApiRouter)
 
 // Iniciar el servidor en el puerto 8000
 app.listen(configEnv.PORT, () => {
-  console.log("Servidor escuchando en el puerto 8080");
+  console.log(`Servidor escuchando en el puerto ${configEnv.PORT}`);
 });
 
 // Inicializar la instancia de la base de datos MongoDB
