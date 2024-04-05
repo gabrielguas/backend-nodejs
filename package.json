@@ -32,6 +32,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "chai": "^5.1.0",
     "mocha": "^10.4.0"
   }
 }
