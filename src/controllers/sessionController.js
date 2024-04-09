@@ -66,13 +66,12 @@ const sessionController = {
   logoutUser: async (req, res) => {
     req.session.destroy((error) => {
       if (error) {
-        console.error("Error al destruir la sesión: " + error);
         res.status(500).json({
           error: "Error logout",
           msg: "Error al cerrar la sesión",
         });
       } else {
-        res.redirect("/");
+        res.status(200).send({message: "Cerraste sesion exitosamente"})
       }
     });
   },

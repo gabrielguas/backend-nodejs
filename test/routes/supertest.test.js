@@ -67,6 +67,17 @@ describe("Testing APP", () => {
         }
         expect(this.cookie.value).to.be.ok
       })
+
+      it("Test logout usuario: Debe destruir la session", async function(){
+        //Given
+
+        //Then
+        const result = await requester.get("/api/session/logout").send()
+
+        //Assert
+        expect(result.statusCode).is.eql(200)
+        expect(result.body).to.have.property('message', 'Cerraste sesion exitosamente');
+      })
     })
   });
 });
