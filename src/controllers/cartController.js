@@ -5,7 +5,7 @@ const cartRepository = new CartRepository();
 const cartController = {
   addToCart: async (req, res) => {
     try {
-      const userId = req.session.user._id;
+      const userId = req.params.userId;
       const productId = req.params.productId;
       await cartRepository.addToCart(userId, productId);
       res
@@ -19,13 +19,15 @@ const cartController = {
 
   clearCart: async (req, res) => {
     try {
-      const userId = req.session.user._id;
+
+     // const userId = req.session.user._id;
       const cartUserId = req.params.userId;
-      if (userId !== cartUserId) {
+      console.log(cartUserId);
+      if (cartUserId !== cartUserId) {
         return res.status(403).json({ message: "No tienes permiso para vaciar este carrito" });
       }
   
-      const cart = await cartRepository.getCartByUserId(userId);
+      const cart = await cartRepository.getCartByUserId(cartUserId);
   
       if (cart) {
         cart.products = [];
