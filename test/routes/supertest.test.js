@@ -6,7 +6,7 @@ const requester = supertest("http://localhost:8080");
 describe("Testing APP", () => {
   const userId = "65d89d6b90ccdd8e3b62a1af";
   const productId = "658e0f7a80eb9365695f9ed7";
-  describe("Testing product API", () => {
+  describe("Testing cart API", () => {
     it("Debe agregar un producto", async () => {
       const response = await requester
         .post(`/api/cart/${userId}/products/${productId}`)
