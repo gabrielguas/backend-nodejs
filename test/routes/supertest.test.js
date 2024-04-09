@@ -23,5 +23,50 @@ describe("Testing APP", () => {
     expect(response.status).to.equal(200); // Carrito vaciado exitosamente
     expect(response.body).to.have.property('message', 'Carrito vaciado exitosamente'); // Verifico el mensaje de respuesta
     })
+
+    describe("Testing de login y session con cookie: ", ()=> {
+      before(function () {
+        this.cookie;
+        this.mockUser = {
+          first_name: 'John',
+          last_name: 'Doe',
+          rol: 'usuario',
+          email: 'john.doe15@example.com', // Para probar, cambia eesto
+          age: 30,
+          password: 'contraseña',
+          loggedBy: 'account',
+          cart: 'id_del_carrito',
+        };
+      })
+
+      it("Test registro usuario: Debe poder registrar un usuario", async function () {
+        //Given
+
+        //Then
+        const {statusCode} = await requester.post("/api/session/register").send(this.mockUser)
+        //Assert
+        expect (statusCode).is.eql(201);
+      })
+
+      it("Test login usuario: Debe poder loguear un usuario", async function () {
+        //Given
+        const mockLogin = {
+          email: this.mockUser.email,
+          password: this.mockUser.password
+        }
+        //Then
+        const result = await requester.post("/api/session/login").send(mockLogin)
+        const cookieResult = result.headers['set-cookie'][0]
+        //Assert
+        expect(result.statusCode).is.eql(200)
+
+        const cookieData = cookieResult.split("=")
+        this.cookie = {
+          name: cookieData[0],
+          value: cookieData[1]
+        }
+        expect(this.cookie.value).to.be.ok
+      })
+    })
   });
 });
