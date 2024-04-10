@@ -15,7 +15,7 @@ const adminController = {
 
   handleAddProduct: async (req, res) => {
     try {
-      const newProduct = req.body; // Suponiendo que los datos del producto se envían en el cuerpo de la solicitud
+      const newProduct = req.body; 
       await productRepository.createProduct(newProduct);
       res.redirect("/admin/panel");
     } catch (error) {
@@ -27,7 +27,7 @@ const adminController = {
   handleEditProduct: async (req, res) => {
     try {
       const productId = req.params.productId;
-      const updatedProduct = req.body; // Suponiendo que los datos actualizados del producto se envían en el cuerpo de la solicitud
+      const updatedProduct = req.body; 
       await productRepository.updateProductById(productId, updatedProduct);
       res.redirect("/admin/panel");
     } catch (error) {
