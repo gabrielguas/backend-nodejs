@@ -1,30 +1,31 @@
-import TicketModel from "../../models/ticket.model.js"
+import ticketDAO from "../dao/ticket.dao.js";
 
-class TicketDAO {
-  // Crear un nuevo ticket
+class TicketRepository {
+  constructor() {
+    this.ticketDAO = new ticketDAO();
+  }
+
   async createTicket(ticketData) {
     try {
-      const newTicket = await TicketModel.create(ticketData);
+      const newTicket = await this.ticketDAO.createTicket(ticketData);
       return newTicket;
     } catch (error) {
       throw new Error("Error al crear el ticket: " + error.message);
     }
   }
 
-  // Obtener todos los tickets
   async getAllTickets() {
     try {
-      const tickets = await TicketModel.find();
+      const tickets = await this.ticketDAO.getAllTickets();
       return tickets;
     } catch (error) {
       throw new Error("Error al obtener los tickets: " + error.message);
     }
   }
 
-  // Obtener un ticket por su código
   async getTicketByCode(ticketCode) {
     try {
-      const ticket = await TicketModel.findOne({ code: ticketCode });
+      const ticket = await this.ticketDAO.getTicketByCode(ticketCode);
       return ticket;
     } catch (error) {
       throw new Error(
@@ -33,13 +34,11 @@ class TicketDAO {
     }
   }
 
-  // Actualizar un ticket por su código
   async updateTicketByCode(ticketCode, newData) {
     try {
-      const updatedTicket = await TicketModel.findOneAndUpdate(
-        { code: ticketCode },
-        newData,
-        { new: true }
+      const updatedTicket = await this.ticketDAO.updateTicketByCode(
+        ticketCode,
+        newData
       );
       if (!updatedTicket) {
         throw new Error("Ticket no encontrado");
@@ -52,12 +51,9 @@ class TicketDAO {
     }
   }
 
-  // Eliminar un ticket por su código
   async deleteTicketByCode(ticketCode) {
     try {
-      const deletedTicket = await TicketModel.findOneAndDelete({
-        code: ticketCode,
-      });
+      const deletedTicket = await this.ticketDAO.deleteTicketByCode(ticketCode);
       if (!deletedTicket) {
         throw new Error("Ticket no encontrado");
       }
@@ -70,4 +66,4 @@ class TicketDAO {
   }
 }
 
-export default TicketDAO;
+export default TicketRepository;

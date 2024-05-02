@@ -133,9 +133,41 @@ const updatePassword = async (req, res) => {
     res.status(500).send("Error al actualizar la contraseña");
   }
 };
+
+const sendTicketInfoEmail = async (ticketData) => {
+  try {
+    const { email, ticketInfo } = ticketData;
+
+    // Configurar las opciones de correo electrónico
+    const mailOptions = {
+      from: "guasgabriel22@gmail.com",
+      to: email,
+      subject: "Ticket",
+      html: `
+        <p>¡Hola!</p>
+        <p>Aquí tienes la información de tu compra:</p>
+        <ul>
+          <li>Código del ticket: ${ticketInfo.code}</li>
+          <li>Fecha de compra: ${ticketInfo.purchase_datetime}</li>
+          <li>Total de compra: ${ticketInfo.amount}</li>
+        </ul>
+        <p>¡Gracias por tu compra!</p>
+      `,
+    };
+
+    // Enviar el correo electrónico
+    await transporter.sendMail(mailOptions);
+    
+  } catch (error) {
+    console.error("Error al enviar el correo electrónico con la información del ticket:", error);
+    throw new Error("Error al enviar el correo electrónico");
+  }
+};
+
 export {
   checkConnection,
   sendEmailToResetPassword,
   resetPassword,
   updatePassword,
+  sendTicketInfoEmail
 };

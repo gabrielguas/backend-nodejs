@@ -78,5 +78,19 @@ class ProductRepository {
       throw new Error("Error al obtener productos paginados");
     }
   }
+
+  async updateProductStock(productId, quantityChange) {
+    try {
+      const product = await this.getProductById(productId);
+      if (!product) {
+        throw new Error("Producto no encontrado");
+      }
+
+      product.stock += quantityChange;
+      await product.save();
+    } catch (error) {
+      throw new Error("Error al actualizar el stock del producto: " + error.message);
+    }
+  }
 }
 export default ProductRepository;
