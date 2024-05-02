@@ -68,17 +68,17 @@ const cartController = {
       if (userId !== cartUserId) {
         return res.status(403).json({ message: "No tienes permiso para completar esta compra" });
       }
-  
+
       const cart = await cartRepository.getCartByUserId(userId);
-  
+
       if (!cart || cart.products.length === 0) {
         return res.status(404).json({ message: "El carrito está vacío" });
       }
-  
+
       // Crear una lista para los productos que no se pueden comprar debido a la falta de stock
       const productsNotInStock = [];
       let totalPurchase = 0;
-  
+
       // Verificar si hay suficiente stock para todos los productos en el carrito
       for (const item of cart.products) {
         const product = await productRepository.getProductById(item.productId);
@@ -87,13 +87,16 @@ const cartController = {
           productsNotInStock.push(item);
         } else {
           // Si hay suficiente stock, actualizar el stock y continuar con el siguiente producto
-          await productRepository.updateProductStock(item.productId, -item.quantity);
+          await productRepository.updateProductStock(
+            item.productId,
+            -item.quantity
+          );
           // Calcular el subtotal del producto y sumarlo al total de la compra
           const subtotal = product.price * item.quantity;
           totalPurchase += subtotal;
         }
       }
-  
+
       if (cart.products.length > productsNotInStock.length) {
         // Crear el ticket
         const newTicket = await ticketRepository.createTicket({
@@ -102,7 +105,7 @@ const cartController = {
           amount: totalPurchase,
           purchaser: userId, // O puedes obtener más detalles del comprador de la sesión si es necesario
         });
-  
+
         // Enviar el correo electrónico con la información del ticket al comprador
         const ticketData = {
           email: req.session.user.email, // Obtener el correo electrónico del comprador de la sesión
@@ -112,20 +115,19 @@ const cartController = {
       } else {
         // Enviar un mensaje indicando que no había suficiente stock para los productos,
         // pero que los productos aún permanecen en el carrito
-        return res.status(422).json({ message: "No había suficiente stock para los productos, pero los productos aún permanecen en el carrito" });
-      }
-  
+        return res.status(422).json({message: "No había suficiente stock para los productos, pero los productos aún permanecen en el carrito",});}
       // Vaciar el carrito y agregar los productos sin stock suficiente
       cart.products = productsNotInStock;
       await cart.save();
-  
-      return res.status(200).json({ message: "Compra completada con éxito", totalPurchase });
+
+      return res
+        .status(200)
+        .json({ message: "Compra completada con éxito", totalPurchase });
     } catch (error) {
       console.error("Error al completar la compra:", error);
       return res.status(500).json({ error: "Error interno del servidor" });
     }
   },
-  
 };
 
 export default cartController;
