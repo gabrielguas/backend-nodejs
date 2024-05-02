@@ -59,6 +59,22 @@ class CartRepository {
     }
     await cart.save();
   }
+
+  async removeFromCart(userId, productId) {
+    let cart = await this.cartDAO.getCartByUserId(userId);
+    const existingProductIndex = cart.products.findIndex((product) => {
+      return String(product.productId._id) === String(productId);
+    });
+    if (existingProductIndex !== -1) {
+      // Si el producto existe en el carrito, lo eliminamos
+      cart.products.splice(existingProductIndex, 1);
+      await cart.save();
+      return true; // Indicamos que el producto fue eliminado exitosamente
+    } else {
+      return false; // Indicamos que el producto no estaba en el carrito
+    }
+  }
+  
 }
 
 export default CartRepository;

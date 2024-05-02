@@ -73,7 +73,6 @@ const sessionController = {
           msg: "Error al cerrar la sesión",
         });
       } else {
-        res.redirect("/");
         res.status(200).send({ message: "Cerraste sesión exitosamente" });
       }
     });

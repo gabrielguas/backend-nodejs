@@ -16,9 +16,9 @@
     </div>
     <div class="col text-end">
       <a href="/users/chat" class="btn btn-primary">Ir al chat</a>
-      <form action="/api/session/logout">
+    <form id="logoutForm" onsubmit="handleLogout">
         <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
-      </form>
+    </form>
     </div>
   </div>
   <a href="/users/{{user._id}}/cart" class="btn btn-primary mb-4">Ir al carrito</a>
@@ -45,7 +45,7 @@
         <h2 class="card-title">{{title}}</h2>
         <p class="card-text">{{description}}</p>
         <p class="card-text">Precio: ${{price}}</p>
-        <a href="/api/products/detalle/{{_id}}" class="btn btn-primary">Ver más</a>
+        <a href="/products/detalle/{{_id}}" class="btn btn-primary">Ver más</a>
         {{#if ../user}}
         <button onclick="agregarAlCarrito('{{_id}}', '{{../user._id}}')" class="btn btn-success">Agregar al carrito</button>
         {{/if}}
@@ -88,3 +88,4 @@
 </div>
 
 <script src="/js/cart.js"></script>
+<script src="/js/logout.js"></script>

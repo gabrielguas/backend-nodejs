@@ -6,6 +6,7 @@ const productRepository = new ProductRepository();
 const createProductController = async (req, res) => {
   try {
     const productData = req.body;
+    console.log(productData);
     const newProduct = await productRepository.createProduct(productData);
     res.status(201).json(newProduct);
   } catch (error) {
@@ -58,6 +59,8 @@ const deleteProductByIdController = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+
 
 export {
   createProductController,

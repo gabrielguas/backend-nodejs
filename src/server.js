@@ -27,6 +27,7 @@ import indexViewRouter from './routes/views/index.routes.js'
 import usersViewRouter from './routes/views/users.routes.js'
 import githubLoginViewRouter from './routes/views/github-login.routes.js'
 import emailRouter from './routes/views/email.routes.js'
+import productsRouter from './routes/views/products.routes.js'
 
 
 // Sessions
@@ -94,6 +95,7 @@ app.use("/", indexViewRouter);
 app.use("/users", usersViewRouter);
 app.use("/github", githubLoginViewRouter);
 app.use("/email", emailRouter);
+app.use("/products", productsRouter)
 app.use("/apidocs",swaggerUiExpress.serve,swaggerUiExpress.setup(specs))
 
 // Rutas de la API

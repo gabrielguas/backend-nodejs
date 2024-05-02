@@ -5,8 +5,8 @@ const router = Router()
 
 router.get("/", getAllProductsController);
 router.get("/:id", getProductByIdController);
-router.delete("/:id",deleteProductByIdController)
-router.post("/", createProductController )
+router.delete("/:id", hasPermissions("admin", "premium"),deleteProductByIdController)
+router.post("/", hasPermissions("admin", "premium"), createProductController )
 router.put("/:id", updateProductByIdController)
 
 

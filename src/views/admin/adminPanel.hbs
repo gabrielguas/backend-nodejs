@@ -1,7 +1,7 @@
 <!-- adminIndex.hbs -->
 <div class="container">
     <h1 class="mt-4 mb-4">Panel de Administrador</h1>
-    <form action="/api/session/logout">
+    <form id="logoutForm" onsubmit="handleLogout">
         <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
     </form>
     <h2 class="mt-4 mb-4">Lista de Productos</h2>
@@ -11,7 +11,7 @@
             <h2 class="card-title">{{title}}</h2>
             <p class="card-text">{{description}}</p>
             <p class="card-text">Precio: ${{price}}</p>
-            <a href="/api/products/detalle/{{_id}}" class="btn btn-primary">Ver más</a>
+            <a href="/products/detalle/{{_id}}" class="btn btn-primary">Ver más</a>
             <button onclick="eliminarProducto('{{_id}}')" class="btn btn-danger">Eliminar Producto</button>
             <button onclick="mostrarFormularioEditar('{{_id}}')" class="btn btn-info">Actualizar Producto</button>
             <div id="formularioEditar{{_id}}" style="display: none;" class="container mt-4">
@@ -19,7 +19,8 @@
                 <form id="formEditarProducto{{_id}}" onsubmit="actualizarProducto('{{_id}}'); return false;">
                     <!-- Campos para editar el producto -->
                     <input type="text" name="title" id="updateTitle{{_id}}" value="{{title}}" required>
-                    <input type="text" name="description" id="updateDescription{{_id}}" value="{{description}}" required> 
+                    <input type="text" name="description" id="updateDescription{{_id}}" value="{{description}}"
+                        required>
                     <input type="text" name="code" id="updateCode{{_id}}" placeholder="Código" required>
                     <input type="number" name="price" id="updatePrice{{_id}}" placeholder="Precio" required>
                     <input type="checkbox" name="status" id="updateStatus{{_id}}" value="true" checked>
@@ -57,3 +58,4 @@
 
 <!-- Importar el archivo de script product.js -->
 <script src="/js/product.js"></script>
+<script src="/js/logout.js"></script>

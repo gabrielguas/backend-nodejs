@@ -5,9 +5,6 @@ async function agregarAlCarrito(productId, userId) {
     // Obtener información del producto
     const responseProduct = await fetch(`/api/products/${productId}`);
     const productData = await responseProduct.json();
-    console.log("Datos: ", productData.owner);
-    console.log("productID: ", productId);
-    console.log("UserId: ", userId);
     // Verificar si el owner del producto es igual al userId
     if (productData.owner === userId) {
       alert("No puedes agregar un producto que te pertenece al carrito.");
@@ -29,6 +26,42 @@ async function agregarAlCarrito(productId, userId) {
     alert("Error al agregar el producto al carrito.");
   }
 }
+
+async function eliminarDelCarrito(productId, userId) {
+  try {
+    const response = await fetch(`/api/cart/remove/${userId}/${productId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.ok) {
+      window.location.reload();
+      // Aquí podrías recargar la página o actualizar la vista del carrito
+    } else {
+      alert("Hubo un problema al eliminar el producto del carrito.");
+    }
+  } catch (error) {
+    console.error("Error al eliminar el producto del carrito:", error);
+    alert("Error al eliminar el producto del carrito.");
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 async function borrarProducto(productId, userId) {
   try {

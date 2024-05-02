@@ -10,5 +10,5 @@ const router = Router();
 router.get("/login", isAuth, renderLoginPage);
 router.get("/register", isAuth, renderRegisterPage);
 router.get("/:userId/cart", hasPermissions("usuario","premium"), userController.showCartPage)
-
+router.get("/agregarproduct/premium", hasPermissions("premium"), userController.showAddProductPremiumPage)
 export default router;

@@ -28,11 +28,15 @@ const mailOptionstoReset = {
 };
 
 // Función para enviar un correo electrónico con un enlace para restablecer la contraseña
-const sendEmailToResetPassword = (req, res) => {
+const sendEmailToResetPassword = async (req, res) => {
   try {
+    const userRepository = new UserRepository();
     const { email } = req.body;
-    if (!email) {
-      return res.status(400).send("No se ha entregado el mail");
+
+    // Obtén el usuario por su correo electrónico
+    const user = await userRepository.getUserByEmail(email);
+    if (!email || !user) {
+      return res.status(400).send("No se ha entregado el mail, el mail es incorrecto o no está registrado!");
     }
     // Generar un token único
     const token = v4();

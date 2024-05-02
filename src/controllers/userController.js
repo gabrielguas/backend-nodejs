@@ -15,6 +15,11 @@ showCartPage: async (req, res) => {
     console.error("Error al obtener el carrito del usuario:", error);
     res.status(500).send("Error interno del servidor");
   }
+},
+
+showAddProductPremiumPage: async (req,res) => {
+  const userId = req.session.user._id;
+  res.render("premium/addProduct", { userId });
 }
 }
 export default userController;

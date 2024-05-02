@@ -1,0 +1,20 @@
+<h1>Agregar un producto PREMIUM</h1>
+<div id="formularioAgregar" class="container mt-4">
+    <h2>Agregar Nuevo Producto</h2>
+    <form id="formAgregarProducto" action="/api/products/" method="POST">
+        <!-- Campos para el nuevo producto (título, descripción, precio, etc.) -->
+        <input type="text" name="title" placeholder="Título" required>
+        <input type="text" name="description" placeholder="Descripción" required>
+        <input type="text" name="code" placeholder="Código" required>
+        <input type="number" name="price" placeholder="Precio" required>
+        <input type="checkbox" name="status" id="status" value="true" checked>
+        <label for="status">Estado</label><br>
+        <input type="number" name="stock" placeholder="Stock" required>
+        <input type="text" name="category" placeholder="Categoría" required>
+        <input type="hidden" name="owner" value="{{ userId }}">
+        <button type="submit" class="btn btn-primary">Agregar Producto</button>
+
+    </form>
+</div>
+
+<script src="/js/product.js"></script>

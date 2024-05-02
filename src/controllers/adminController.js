@@ -39,7 +39,7 @@ const adminController = {
   handleDeleteProduct: async (req, res) => {
     try {
       const productId = req.params.productId;
-      await productRepository.deleteProduct(productId);
+      await productRepository.deleteProductById(productId);
       res.redirect("/admin/panel");
     } catch (error) {
       // console.error("Error al eliminar producto:", error);
