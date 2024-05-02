@@ -48,8 +48,10 @@ const sessionController = {
   },
 
   githubLoginCallback: async (req, res) => {
-    
-    passport.authenticate("github", { failureRedirect: "/github/error" })(req,res,() => {
+    passport.authenticate("github", { failureRedirect: "/github/error" })(
+      req,
+      res,
+      () => {
         const user = req.user;
         req.session.user = {
           name: `${user.first_name} ${user.last_name}`,
@@ -71,7 +73,8 @@ const sessionController = {
           msg: "Error al cerrar la sesión",
         });
       } else {
-        res.status(200).send({message: "Cerraste sesion exitosamente"})
+        res.redirect("/");
+        res.status(200).send({ message: "Cerraste sesión exitosamente" });
       }
     });
   },

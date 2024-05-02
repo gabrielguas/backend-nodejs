@@ -32,7 +32,7 @@ const cartController = {
       if (cart) {
         cart.products = [];
         await cart.save();
-        res.status(200).json({ message: "Carrito vaciado exitosamente" });
+        res.redirect(`/users/${req.session.user._id}/cart`);
       } else {
         res.status(404).json({ message: "El carrito está vacío" });
       }

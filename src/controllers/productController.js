@@ -39,6 +39,8 @@ const updateProductByIdController = async (req, res) => {
   try {
     const productId = req.params.id;
     const newData = req.body;
+    console.log(productId);
+    console.log(newData);
     const updatedProduct = await productRepository.updateProductById(productId, newData);
     res.status(200).json(updatedProduct);
   } catch (error) {

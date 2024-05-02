@@ -16,16 +16,16 @@
             <button onclick="mostrarFormularioEditar('{{_id}}')" class="btn btn-info">Actualizar Producto</button>
             <div id="formularioEditar{{_id}}" style="display: none;" class="container mt-4">
                 <h2>Editar Producto</h2>
-                <form id="formEditarProducto{{_id}}" onsubmit="actualizarProducto('{{_id}}'); return false;" method="POST">
+                <form id="formEditarProducto{{_id}}" onsubmit="actualizarProducto('{{_id}}'); return false;">
                     <!-- Campos para editar el producto -->
-                    <input type="text" name="title" id="updateTitle" placeholder="Título" required>
-                    <input type="text" name="description" id="updateDescription" placeholder="Descripción" required>
-                    <input type="text" name="code" id="updateCode" placeholder="Código" required>
-                    <input type="number" name="price" id="updatePrice" placeholder="Precio" required>
+                    <input type="text" name="title" id="updateTitle{{_id}}" value="{{title}}" required>
+                    <input type="text" name="description" id="updateDescription{{_id}}" value="{{description}}" required> 
+                    <input type="text" name="code" id="updateCode{{_id}}" placeholder="Código" required>
+                    <input type="number" name="price" id="updatePrice{{_id}}" placeholder="Precio" required>
                     <input type="checkbox" name="status" id="updateStatus{{_id}}" value="true" checked>
                     <label for="updateStatus{{_id}}">Estado</label><br>
-                    <input type="number" name="stock" id="updateStock" placeholder="Stock" required>
-                    <input type="text" name="category" id="updateCategory" placeholder="Categoría" required>
+                    <input type="number" name="stock" id="updateStock{{_id}}" placeholder="Stock" required>
+                    <input type="text" name="category" id="updateCategory{{_id}}" placeholder="Categoría" required>
                     <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                 </form>
             </div>
