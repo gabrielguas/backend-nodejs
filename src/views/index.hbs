@@ -38,13 +38,14 @@
   <h1 class="mt-4 mb-4">Lista de Productos</h1>
 
 <div class="row">
-  {{#each products.docs}}
+  {{#each products}}
   <div class="col-md-4 mb-4">
     <div class="card">
       <div class="card-body">
         <h2 class="card-title">{{title}}</h2>
         <p class="card-text">{{description}}</p>
         <p class="card-text">Precio: ${{price}}</p>
+        <p class="card-text">Stock: {{stock}}</p>
         <a href="/products/detalle/{{_id}}" class="btn btn-primary">Ver más</a>
         {{#if ../user}}
         <button onclick="agregarAlCarrito('{{_id}}', '{{../user._id}}')" class="btn btn-success">Agregar al carrito</button>

@@ -21,7 +21,6 @@ class CartDAO {
 
   async getCartByUserId(userId) {
     try {
-      console.log(userId);
       const cart = await CartModel.findOne({ userId: userId }).populate('products.productId');;
       return cart;
     } catch (error) {
