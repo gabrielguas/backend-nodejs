@@ -6,7 +6,7 @@ const adminController = {
   showAdminPanel: async (req, res) => {
     try {
       const products = await productService.getAllProducts();
-      res.render("admin/adminPanel", { products: products});
+      res.render("admin/adminPanel", { products: products });
     } catch (error) {
       res.status(500).send("Error interno del servidor al mostrar el panel del admin");
     }
@@ -49,7 +49,7 @@ const adminController = {
   showAdminPanelUsers: async (req, res) => {
     try {
       const users = await userService.getAllUsers()
-      
+
       res.render("admin/adminPanelUsers", { users: users});
     } catch (error) {
       res.status(500).send("Error interno del servidor al mostrar el panel del admin");
