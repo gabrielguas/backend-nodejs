@@ -26,7 +26,7 @@ const sessionController = {
       failureRedirect: "/api/session/fail-login",
     })(req, res, () => {
       const user = req.user;
-
+      user.login();
       req.session.user = {
         _id: user._id,
         name: `${user.first_name} ${user.last_name}`,
@@ -66,6 +66,7 @@ const sessionController = {
   },
 
   logoutUser: async (req, res) => {
+    req.user.logout()
     req.session.destroy((error) => {
       if (error) {
         res.status(500).json({

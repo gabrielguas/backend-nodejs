@@ -22,7 +22,19 @@ const schema = new mongoose.Schema({
   password: String,
   loggedBy: String,
   cart: { type: mongoose.Schema.Types.ObjectId, ref: "carts" }, // Referencia al carrito
+
+  last_connection: Date,
 });
+
+schema.methods.login = function() {
+  this.last_connection = new Date();
+  return this.save();
+};
+
+schema.methods.logout = function() {
+  this.last_connection = new Date();
+  return this.save();
+};
 
 // Middleware para crear un carrito al crear un usuario
 schema.pre("save", async function (next) {

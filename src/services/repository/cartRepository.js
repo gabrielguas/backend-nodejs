@@ -1,8 +1,6 @@
-import CartDAO from "../dao/cart.dao.js";
-
-class CartRepository {
-  constructor() {
-    this.cartDAO = new CartDAO();
+export default class CartRepository {
+  constructor(dao) {
+    this.cartDAO = dao;
   }
 
   async createCart(cartData) {
@@ -77,4 +75,3 @@ class CartRepository {
   
 }
 
-export default CartRepository;

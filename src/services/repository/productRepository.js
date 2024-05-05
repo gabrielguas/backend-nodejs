@@ -1,8 +1,7 @@
-import ProductDAO from "../dao/product.dao.js";
 
-class ProductRepository {
-  constructor() {
-    this.productDAO = new ProductDAO();
+export default class ProductRepository {
+  constructor(dao) {
+    this.productDAO = dao;
   }
 
   async createProduct(productData) {
@@ -47,37 +46,36 @@ class ProductRepository {
 
   async getAllProductsPaginate(page, limit, query, sort) {
     try {
-      let filter = {};
-      if (query) {
-        filter = {
-          $or: [
-            { title: { $regex: query, $options: "i" } },
-            { description: { $regex: query, $options: "i" } },
-          ],
-        };
-      }
+        let filter = { stock: { $gt: 0 } }; // Filtrar por stock mayor que cero
 
-      let sortOption = {};
-      if (sort) {
-        if (sort.toLowerCase() === "asc") {
-          sortOption = { price: 1 }; // Ascendente
-        } else if (sort.toLowerCase() === "desc") {
-          sortOption = { price: -1 }; // Descendente
+        if (query) {
+            filter.$or = [
+                { title: { $regex: query, $options: "i" } },
+                { description: { $regex: query, $options: "i" } },
+            ];
         }
-      }
 
-      const options = {
-        page: parseInt(page),
-        limit: parseInt(limit),
-        sort: sortOption,
-      };
+        let sortOption = {};
+        if (sort) {
+            if (sort.toLowerCase() === "asc") {
+                sortOption = { price: 1 }; // Ascendente
+            } else if (sort.toLowerCase() === "desc") {
+                sortOption = { price: -1 }; // Descendente
+            }
+        }
 
-      return await this.productDAO.getAllProductsPaginate(filter, options);
+        const options = {
+            page: parseInt(page),
+            limit: parseInt(limit),
+            sort: sortOption,
+        };
+
+        return await this.productDAO.getAllProductsPaginate(filter, options);
     } catch (error) {
-      console.error(error);
-      throw new Error("Error al obtener productos paginados");
+        console.error(error);
+        throw new Error("Error al obtener productos paginados");
     }
-  }
+}
 
   async updateProductStock(productId, quantityChange) {
     try {
@@ -93,4 +91,3 @@ class ProductRepository {
     }
   }
 }
-export default ProductRepository;

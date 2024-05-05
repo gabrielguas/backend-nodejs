@@ -1,16 +1,13 @@
-import ProductRepository from "../services/repository/productRepository.js";
+import { productService } from "../services/repository/services.js";
 
-const productRepository = new ProductRepository();
 
 export const renderHomePage = async (req, res) => {
   try {
     const { page = 1, limit = 5, query, sort } = req.query;
-    const productData = await productRepository.getAllProductsPaginate(page, limit, query, sort);
-    // Filtrar los productos cuyo stock sea mayor que 0
-    const productsWithStock = productData.docs.filter(product => product.stock > 0);
-    console.log(productsWithStock);
+    const productData = await productService.getAllProductsPaginate(page, limit, query, sort);
+    
     const user = req.session.user || null;
-    res.render("index", { title: "Página principal", products: productsWithStock, user: user });
+    res.render("index", { title: "Página principal", products: productData, user: user });
 
   } catch (error) {
     console.error(error);

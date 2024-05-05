@@ -1,16 +1,25 @@
-import UserDAO from "../dao/user.dao.js"
+
 
 import { createHash } from "../../utils/bcrypt.js"
 
-class UserRepository {
-  constructor() {
-    this.userDAO = new UserDAO();
+export default class UserRepository  {
+  constructor(dao) {
+    this.userDAO = dao;
   }
+
 
   async createUser(userData) {
     try {
       return await this.userDAO.createUser(userData);
     } catch (error) {
+      throw error;
+    }
+  }
+
+  async getAllUsers(){
+    try{
+      return await this.userDAO.getAllUsers();
+    } catch (error){
       throw error;
     }
   }
@@ -33,7 +42,7 @@ class UserRepository {
 
   async deleteUser(userId) {
     try {
-      return await this.userDAO.deleteUser(userId);
+      return await this.userDAO.deleteUserById(userId);
     } catch (error) {
       throw error;
     }
@@ -64,5 +73,3 @@ class UserRepository {
     }
   }
 }
-
-export default UserRepository;

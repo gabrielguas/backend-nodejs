@@ -19,5 +19,5 @@ router.get("/", async (req, res) => {
 
 // Ruta para el panel de administrador
 router.get("/admin", hasPermissions("admin"), adminController.showAdminPanel);
-
+router.get("/admin/panelusers", hasPermissions("admin"),adminController.showAdminPanelUsers)
 export default router;

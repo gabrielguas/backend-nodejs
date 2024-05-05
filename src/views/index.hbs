@@ -12,7 +12,6 @@
       {{#if user.rol}}
       <p>Rol: {{user.rol}}</p>
       {{/if}}
-      <p>ID: {{user._id}}</p>
     </div>
     <div class="col text-end">
       <a href="/users/chat" class="btn btn-primary">Ir al chat</a>
@@ -38,7 +37,7 @@
   <h1 class="mt-4 mb-4">Lista de Productos</h1>
 
 <div class="row">
-  {{#each products}}
+  {{#each products.docs}}
   <div class="col-md-4 mb-4">
     <div class="card">
       <div class="card-body">

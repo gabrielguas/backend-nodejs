@@ -1,22 +1,15 @@
-import CartRepository from "../services/repository/cartRepository.js";
-import ProductRepository from "../services/repository/productRepository.js";
-import TicketRepository from "../services/repository/ticketRepository.js";
+
+import { cartService, productService, ticketService } from "../services/repository/services.js";
 import { sendTicketInfoEmail } from "../utils/mail.js";
 import { v4 } from "uuid";
-
-const cartRepository = new CartRepository();
-const productRepository = new ProductRepository();
-const ticketRepository = new TicketRepository();
 
 const cartController = {
   addToCart: async (req, res) => {
     try {
       const userId = req.params.userId;
       const productId = req.params.productId;
-      await cartRepository.addToCart(userId, productId);
-      res
-        .status(200)
-        .json({ message: "Producto agregado al carrito con éxito" });
+      await cartService.addToCart(userId, productId);
+      res.status(200).json({ message: "Producto agregado al carrito con éxito" });
     } catch (error) {
       res.status(500).json({ error: "Error interno del servidor" });
     }
@@ -24,9 +17,9 @@ const cartController = {
 
   removeFromCart: async (req, res) => {
     try {
-      const userId = req.params.userId;
+      const userId = req.session.user._id;
       const productId = req.params.productId;
-      await cartRepository.removeFromCart(userId, productId);
+      await cartService.removeFromCart(userId, productId);
       res
         .status(200)
         .json({ message: "Producto eliminado del carrito con éxito" });
@@ -37,17 +30,9 @@ const cartController = {
 
   clearCart: async (req, res) => {
     try {
-      // const userId = req.session.user._id;
       const cartUserId = req.params.userId;
-      console.log(cartUserId);
-      if (cartUserId !== cartUserId) {
-        return res
-          .status(403)
-          .json({ message: "No tienes permiso para vaciar este carrito" });
-      }
-
-      const cart = await cartRepository.getCartByUserId(cartUserId);
-
+      
+      const cart = await cartService.getCartByUserId(cartUserId);
       if (cart) {
         cart.products = [];
         await cart.save();
@@ -64,12 +49,8 @@ const cartController = {
   completePurchase: async (req, res) => {
     try {
       const userId = req.session.user._id;
-      const cartUserId = req.session.user._id; // Obtener el ID del usuario de la sesión
-      if (userId !== cartUserId) {
-        return res.status(403).json({ message: "No tienes permiso para completar esta compra" });
-      }
 
-      const cart = await cartRepository.getCartByUserId(userId);
+      const cart = await cartService.getCartByUserId(userId);
 
       if (!cart || cart.products.length === 0) {
         return res.status(404).json({ message: "El carrito está vacío" });
@@ -77,39 +58,50 @@ const cartController = {
 
       // Crear una lista para los productos que no se pueden comprar debido a la falta de stock
       const productsNotInStock = [];
+      const purchasedItems = [];
       let totalPurchase = 0;
 
       // Verificar si hay suficiente stock para todos los productos en el carrito
       for (const item of cart.products) {
-        const product = await productRepository.getProductById(item.productId);
+        const product = await productService.getProductById(item.productId);
         if (!product || product.stock < item.quantity) {
           // Si no hay suficiente stock, agregar el producto a la lista de productos sin stock suficiente
           productsNotInStock.push(item);
         } else {
           // Si hay suficiente stock, actualizar el stock y continuar con el siguiente producto
-          await productRepository.updateProductStock(
+          await productService.updateProductStock(
             item.productId,
             -item.quantity
           );
           // Calcular el subtotal del producto y sumarlo al total de la compra
           const subtotal = product.price * item.quantity;
           totalPurchase += subtotal;
+
+          // Agregar el ítem a la lista de ítems comprados
+          purchasedItems.push({
+            title: product.title,
+            quantity: item.quantity,
+            price: product.price,
+            subtotal: subtotal
+        });
         }
       }
 
       if (cart.products.length > productsNotInStock.length) {
         // Crear el ticket
-        const newTicket = await ticketRepository.createTicket({
+        const newTicket = await ticketService.createTicket({
           code: v4(), // Aquí debes implementar la lógica para generar el código del ticket
           purchase_datetime: new Date(),
           amount: totalPurchase,
           purchaser: userId, // O puedes obtener más detalles del comprador de la sesión si es necesario
         });
-
+        console.log("Sin stock ",productsNotInStock);
         // Enviar el correo electrónico con la información del ticket al comprador
         const ticketData = {
           email: req.session.user.email, // Obtener el correo electrónico del comprador de la sesión
           ticketInfo: newTicket, // Pasar la información del ticket al método
+          purchasedItems,
+          productsNotInStock,
         };
         await sendTicketInfoEmail(ticketData);
       } else {

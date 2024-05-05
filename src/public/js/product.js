@@ -6,7 +6,6 @@ async function eliminarProducto(productId) {
     if (response.ok) {
       alert("Producto eliminado exitosamente.");
       location.reload();
-      // Recargar la página o actualizar la lista de productos
     } else {
       alert("Hubo un problema al eliminar el producto.");
     }
@@ -34,7 +33,6 @@ function mostrarFormularioEditar(productId) {
 }
 async function actualizarProducto(productId) {
   try {
-    console.log("Estoy acá :", productId);
     const newTitle = document.getElementById(`updateTitle${productId}`).value;
     const newDescription = document.getElementById(`updateDescription${productId}`).value;
     const newCode = document.getElementById(`updateCode${productId}`).value;

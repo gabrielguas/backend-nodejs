@@ -3,14 +3,13 @@ import passportLocal from "passport-local";
 import { createHash, isValidPassword } from "../utils/bcrypt.js"
 import GitHubStrategy from "passport-github2";
 import { configEnv } from "../config/config.js"
-import UserRepository from "../services/repository/userRepository.js"
+import { userService } from "../services/repository/services.js";
 
 const { GITHUB_CLIENT_ID, GITHUB_SECRET, GITHUB_CALLBACK_URL } = configEnv;
 // Declaro la estrategia
 const localStrategy = passportLocal.Strategy;
 
 const initializePassport = () => {
-  const userRepo = new UserRepository();
   //Register
   passport.use(
     "register",
@@ -19,7 +18,7 @@ const initializePassport = () => {
       async (req, username, password, done) => {
         const { first_name, last_name, email, age, rol } = req.body;
         try {
-          const exist = await userRepo.getUserByEmail(email);
+          const exist = await userService.getUserByEmail(email);
           if (exist) {
             ("Ya hay un usuario registrado con ese email");
             return done(null, false, {
@@ -27,7 +26,7 @@ const initializePassport = () => {
             });
           }
 
-          const result = await userRepo.createUser({
+          const result = await userService.createUser({
             first_name,
             last_name,
             email,
@@ -51,7 +50,7 @@ const initializePassport = () => {
       { passReqToCallback: true, usernameField: "email" },
       async (req, username, password, done) => {
         try {
-          const user = await userRepo.getUserByEmail(username);
+          const user = await userService.getUserByEmail(username);
           if (!user) {
             console.warn("El usuario no existe");
             return done(null, false);
@@ -75,7 +74,7 @@ const initializePassport = () => {
 
   passport.deserializeUser(async (id, done) => {
     try {
-      let user = await userRepo.getUserById(id);
+      let user = await userService.getUserById(id);
       done(null, user);
     } catch (error) {
       console.error("Error desserialiazndo al usuario: ", error);
@@ -93,7 +92,7 @@ const initializePassport = () => {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
-          const user = await userRepo.getUserByEmailOrUsername(
+          const user = await userService.getUserByEmailOrUsername(
             profile._json.email,
             profile._json.login
           ); 
@@ -105,7 +104,7 @@ const initializePassport = () => {
               loggedBy: "GitHub",
               type: "user",
             };
-            const result = await userRepo.createUser(newUser);
+            const result = await userService.createUser(newUser);
             return done(null, result);
           } else {
             // Si entramos por aca significa que el user ya existe en la DB

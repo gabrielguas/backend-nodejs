@@ -36,7 +36,11 @@ const sendEmailToResetPassword = async (req, res) => {
     // Obtén el usuario por su correo electrónico
     const user = await userRepository.getUserByEmail(email);
     if (!email || !user) {
-      return res.status(400).send("No se ha entregado el mail, el mail es incorrecto o no está registrado!");
+      return res
+        .status(400)
+        .send(
+          "No se ha entregado el mail, el mail es incorrecto o no está registrado!"
+        );
     }
     // Generar un token único
     const token = v4();
@@ -136,7 +140,23 @@ const updatePassword = async (req, res) => {
 
 const sendTicketInfoEmail = async (ticketData) => {
   try {
-    const { email, ticketInfo } = ticketData;
+    const { email, ticketInfo, purchasedItems, productsNotInStock } = ticketData;
+    // Construir una cadena HTML para mostrar todos los ítems comprados
+    let purchasedItemsHTML = "<ul>";
+    purchasedItems.forEach((item) => {
+      purchasedItemsHTML += `<li>${item.title} - Cantidad: ${item.quantity} - Precio unitario: ${item.price} - Subtotal: ${item.subtotal}</li>`;
+    });
+    purchasedItemsHTML += "</ul>";
+
+    let productsNotInStockHTML = "";
+    if (productsNotInStock.length > 0) {
+      productsNotInStockHTML = "<li>Ítems sin stock:</li><ul>";
+      productsNotInStock.forEach((item) => {
+        const product = item.productId;
+        productsNotInStockHTML += `<li>${product.title} (Cantidad en stock: ${product.stock}) - El producto no pudo ser comprado debido a la falta de stock. Continuará en el carrito.</li>`;
+      });
+      productsNotInStockHTML += "</ul>";
+    }
 
     // Configurar las opciones de correo electrónico
     const mailOptions = {
@@ -144,30 +164,61 @@ const sendTicketInfoEmail = async (ticketData) => {
       to: email,
       subject: "Ticket",
       html: `
+            <p>¡Hola!</p>
+            <p>Aquí tienes la información de tu compra:</p>
+            <ul>
+                <li>Código del ticket: ${ticketInfo.code}</li>
+                <li>Fecha de compra: ${ticketInfo.purchase_datetime}</li>
+                <li>Total de compra: ${ticketInfo.amount}</li>
+                <li>Ítems comprados:</li>
+                ${purchasedItemsHTML} <!-- Aquí se inserta la cadena HTML con los ítems comprados -->
+                ${productsNotInStockHTML} <!-- Aquí se inserta la cadena HTML con los ítems sin stock si los hay -->
+            </ul>
+            <p>¡Gracias por tu compra!</p>
+        `,
+    };
+
+    // Enviar el correo electrónico
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.error(
+      "Error al enviar el correo electrónico con la información del ticket:",
+      error
+    );
+    throw new Error("Error al enviar el correo electrónico");
+  }
+};
+
+const sendProductDeletedEmail = async (productName, userEmail) => {
+  try {
+    // Configurar las opciones de correo electrónico
+    const mailOptions = {
+      from: "guasgabriel22@gmail.com",
+      to: userEmail,
+      subject: "Producto Eliminado",
+      html: `
         <p>¡Hola!</p>
-        <p>Aquí tienes la información de tu compra:</p>
-        <ul>
-          <li>Código del ticket: ${ticketInfo.code}</li>
-          <li>Fecha de compra: ${ticketInfo.purchase_datetime}</li>
-          <li>Total de compra: ${ticketInfo.amount}</li>
-        </ul>
-        <p>¡Gracias por tu compra!</p>
+        <p>Queremos informarte que el siguiente producto ha sido eliminado de tu carrito:</p>
+        <p><strong>Producto:</strong> ${productName}</p>
+        <p>Lamentamos las molestias que esto pueda ocasionarte. Si tienes alguna pregunta o necesitas asistencia adicional, no dudes en contactarnos.</p>
+        <p>¡Gracias por tu comprensión!</p>
       `,
     };
 
     // Enviar el correo electrónico
     await transporter.sendMail(mailOptions);
-    
   } catch (error) {
-    console.error("Error al enviar el correo electrónico con la información del ticket:", error);
+    console.error("Error al enviar el correo electrónico de producto eliminado:", error);
     throw new Error("Error al enviar el correo electrónico");
   }
 };
+
 
 export {
   checkConnection,
   sendEmailToResetPassword,
   resetPassword,
   updatePassword,
-  sendTicketInfoEmail
+  sendTicketInfoEmail,
+  sendProductDeletedEmail,
 };

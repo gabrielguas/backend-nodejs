@@ -18,8 +18,9 @@ import cors from "cors";
 import userRouter from "./routes/api/users.api.routes.js";
 import productRouter from "./routes/api/products.api.routes.js";
 import sessionRouter from "./routes/api/session.api.routes.js"
-import cartRouter from "./routes/api/cart.api.routes.js"
-import emailApiRouter from './routes/api/email.api.routes.js'
+import cartRouter from "./routes/api/cart.api.routes.js";
+import emailApiRouter from './routes/api/email.api.routes.js';
+import adminApiRouter from './routes/api/admin.api.routes.js';
 
 
 // Vistas
@@ -101,9 +102,10 @@ app.use("/apidocs",swaggerUiExpress.serve,swaggerUiExpress.setup(specs))
 // Rutas de la API
 app.use("/api/users", userRouter);
 app.use("/api/products", productRouter);
-app.use("/api/session",sessionRouter)
-app.use("/api/cart", cartRouter)
-app.use("/api/email", emailApiRouter)
+app.use("/api/session",sessionRouter);
+app.use("/api/cart", cartRouter);
+app.use("/api/email", emailApiRouter);
+app.use("/api/admin", adminApiRouter);
 
 
 // Iniciar el servidor en el puerto 8000

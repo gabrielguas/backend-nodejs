@@ -26,7 +26,7 @@
       {{/each}}
     </tbody>
   </table>
-  <form action="/api/cart/checkout" method="POST">
+  <form action="/api/cart/checkout/{{cart.userId}}" method="POST">
     <button type="submit" class="btn btn-success">Comprar</button>
   </form>
   <!-- Botón para vaciar el carrito -->
