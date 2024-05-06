@@ -44,7 +44,7 @@ const sendEmailToResetPassword = async (req, res) => {
     }
     // Generar un token único
     const token = v4();
-    const link = `http://localhost:8080/api/email/reset-password/${token}`;
+    const link = `https://backend-nodejs-production-6e82.up.railway.app/api/email/reset-password/${token}`;
 
     // Guardar el correo electrónico y su token en la base de datos temporal
     tempDBmails[token] = {
