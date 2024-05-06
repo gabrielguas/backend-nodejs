@@ -5,7 +5,6 @@ const validateCartOwnership = (req, res, next) => {
 
     // Verificar si el usuario del carrito coincide con el usuario de la sesión
     if (cartUserId !== userId) {
-      console.log(cartUserId, userId);
       return res
         .status(403)
         .json({ message: "No tienes permiso para realizar esa acción" });

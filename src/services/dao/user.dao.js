@@ -19,6 +19,15 @@ class UserDAO {
     }
   }
 
+  async getAllUsersToDelete(query) {
+    try {
+      const users = await userModel.find(query)
+      return users;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async getUserById(userId) {
     try {
       const user = await userModel.findById(userId);

@@ -13,7 +13,6 @@ const hasPermissions = (...requiredRoles) => {
             "No tiene permisos suficientes para acceder a esta parte de la página.",
         });
     }
-
     next();
   };
 };

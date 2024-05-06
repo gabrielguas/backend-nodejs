@@ -24,6 +24,14 @@ export default class UserRepository  {
     }
   }
 
+  async getAllUsersToDelete(query){
+    try{
+      return await this.userDAO.getAllUsersToDelete(query)
+    }catch(error){
+      throw error;
+    }
+  }
+
   async getUserById(userId) {
     try {
       return await this.userDAO.getUserById(userId);

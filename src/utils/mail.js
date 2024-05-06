@@ -212,6 +212,28 @@ const sendProductDeletedEmail = async (productName, userEmail) => {
     throw new Error("Error al enviar el correo electrónico");
   }
 };
+const sendAccountDeletedEmail = async (email) => {
+  try {
+    // Configurar las opciones de correo electrónico
+    const mailOptions = {
+      from: "guasgabriel22@gmail.com",
+      to: email,
+      subject: "Cuenta Eliminada por Falta de Actividad",
+      html: `
+        <p>¡Hola!</p>
+        <p>Queremos informarte que tu cuenta ha sido eliminada debido a la falta de actividad en los últimos días.</p>
+        <p>Si necesitas ayuda o tienes alguna pregunta, no dudes en contactarnos.</p>
+        <p>¡Gracias por tu comprensión!</p>
+      `,
+    };
+
+    // Enviar el correo electrónico
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.error("Error al enviar el correo electrónico de cuenta eliminada:", error);
+    throw new Error("Error al enviar el correo electrónico");
+  }
+};
 
 
 export {
@@ -221,4 +243,5 @@ export {
   updatePassword,
   sendTicketInfoEmail,
   sendProductDeletedEmail,
+  sendAccountDeletedEmail,
 };

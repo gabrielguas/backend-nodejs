@@ -90,23 +90,20 @@ const cartController = {
       if (cart.products.length > productsNotInStock.length) {
         // Crear el ticket
         const newTicket = await ticketService.createTicket({
-          code: v4(), // Aquí debes implementar la lógica para generar el código del ticket
+          code: v4(),
           purchase_datetime: new Date(),
           amount: totalPurchase,
-          purchaser: userId, // O puedes obtener más detalles del comprador de la sesión si es necesario
+          purchaser: userId, 
         });
-        console.log("Sin stock ",productsNotInStock);
         // Enviar el correo electrónico con la información del ticket al comprador
         const ticketData = {
-          email: req.session.user.email, // Obtener el correo electrónico del comprador de la sesión
-          ticketInfo: newTicket, // Pasar la información del ticket al método
+          email: req.session.user.email, 
+          ticketInfo: newTicket,
           purchasedItems,
           productsNotInStock,
         };
         await sendTicketInfoEmail(ticketData);
       } else {
-        // Enviar un mensaje indicando que no había suficiente stock para los productos,
-        // pero que los productos aún permanecen en el carrito
         return res.status(422).json({message: "No había suficiente stock para los productos, pero los productos aún permanecen en el carrito",});}
       // Vaciar el carrito y agregar los productos sin stock suficiente
       cart.products = productsNotInStock;
