@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import mailConfig from "../config/mail/mail.config.js";
-import UserRepository from "../services/repository/userRepository.js";
+import {userService} from "../services/repository/services.js"
 import { v4 } from "uuid";
 
 const transporter = nodemailer.createTransport(mailConfig);
@@ -30,11 +30,11 @@ const mailOptionstoReset = {
 // Función para enviar un correo electrónico con un enlace para restablecer la contraseña
 const sendEmailToResetPassword = async (req, res) => {
   try {
-    const userRepository = new UserRepository();
     const { email } = req.body;
 
     // Obtén el usuario por su correo electrónico
-    const user = await userRepository.getUserByEmail(email);
+    const user = await userService.getUserByEmail(email);
+    console.log("usuario:", user);
     if (!email || !user) {
       return res
         .status(400)
@@ -114,9 +114,8 @@ const updatePassword = async (req, res) => {
   }
 
   try {
-    const userRepository = new UserRepository();
     // Obtén el usuario por su correo electrónico
-    const user = await userRepository.getUserByEmail(email);
+    const user = await userService.getUserByEmail(email);
 
     if (!user) {
       return res
@@ -125,7 +124,7 @@ const updatePassword = async (req, res) => {
     }
 
     // Actualiza la contraseña del usuario
-    await userRepository.updatePassword(user._id, password);
+    await userService.updatePassword(user._id, password);
 
     // Elimina el token de la base de datos temporal
     delete tempDBmails[token];

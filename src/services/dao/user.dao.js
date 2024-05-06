@@ -66,6 +66,7 @@ class UserDAO {
     }
   }
 
+  
   async getUserByEmail(email) {
     try {
       const user = await userModel.findOne({ email: email });

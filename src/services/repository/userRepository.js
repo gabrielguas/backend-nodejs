@@ -58,7 +58,8 @@ export default class UserRepository  {
 
   async getUserByEmail(email) {
     try {
-      return await this.userDAO.getUserByEmail(email);
+      const user= await this.userDAO.getUserByEmail(email);
+      return user;
     } catch (error) {
       throw error;
     }
